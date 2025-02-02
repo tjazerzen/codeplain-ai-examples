@@ -1,0 +1,35 @@
+***Definitions:***
+
+- The Server is an API server built with FastAPI.
+
+- The Master API Key is stored in a .env file as MASTER_API_KEY. 
+
+***Non-Functional Requirements:***
+
+- The implementation must use Python with FastAPI.
+
+- The Master API Key should be loaded using dotenv.
+
+- The project should use requirements.txt for package management.
+
+- Requests should be logged using print.
+
+- The project should have separate folders for unit and e2e tests: `tests/unit/`, `tests/e2e/`
+
+- packages should be managed with venv, python version 3.13
+
+***Test Requirements:***
+
+- Unit tests should be written using pytest.
+
+- End-to-end tests should be implemented using httpx. 
+
+***Functional Requirements:***
+
+- Implement the entry point for The Server.
+
+- Implement a GET endpoint at /hello-world. You should return a JSON object with a message and status code 200.
+
+- Authenticate the request using the Master API Key. If not authenticated, return a 401 status code.
+
+- Write a README.md file that explains how to run the application and setup the environment. It should include instructions for creating venv, installing dependencies, running the tests, and starting the server.

@@ -169,3 +169,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# folders build.* everywhere
+build.*
+python-backend-service/build.*
