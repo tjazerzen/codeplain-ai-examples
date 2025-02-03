@@ -32,4 +32,8 @@
 
 - Authenticate the request using the Master API Key. If not authenticated, return a 401 status code.
 
-- Write a README.md file that explains how to run the application and setup the environment. It should include instructions for creating venv, installing dependencies, running the tests, and starting the server.
+- Write me docker-compose.yml which will have postgres service, which will be exposed to port 5432, and the server service which will be exposed to port 8000.
+
+- database should only one table: `ping`, with only column `created_at` with default value to now(). Migrations should be handled by alembic. Upon receiving a request to /hello-world, the server should insert a row into the ping table.
+
+- Write a README.md file that explains how to run the application and setup the environment. It should include: 1. Instructions for creating venv; 2. installing dependencies; 3. running the tests; 4. Creating database migrations; 5. Starting the server.
