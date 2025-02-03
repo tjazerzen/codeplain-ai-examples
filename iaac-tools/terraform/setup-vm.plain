@@ -1,0 +1,35 @@
+***Definitions:***
+
+- The Infrastructure is a Terraform configuration that provisions a virtual machine on Hetzner Cloud.
+- The Domain is `tjazerzen.com`, managed on Cloudflare.
+- The DNS Record maps The Domain to The Virtual Machine's IP address.
+- The Security Group is an AWS security group that allows SSH (port 22) and HTTP/HTTPS (ports 80, 443).
+- The TLS Certificates are issued by Let's Encrypt and managed using Cloudflare API.
+- The Cloud-Init Script is responsible for setting up The Virtual Machine with required software.
+
+***Non-Functional Requirements:***
+
+- The Infrastructure should be written in Terraform.
+- The Cloud-Init Script should be used to install and configure Nginx and Docker.
+- The Security Group should be managed in AWS.
+- The DNS Record should be managed using Cloudflare's API.
+- SSL certificates should be automatically provisioned with Let's Encrypt.
+
+***Test Requirements:***
+
+- Use BATS (Bash Automated Testing System) to validate the following:
+  - The Virtual Machine is reachable via SSH.
+  - Nginx is running and accessible on HTTP (port 80).
+  - The DNS Record resolves to the Virtual Machine's IP.
+  - The SSL certificate is valid.
+  
+***Functional Requirements:***
+
+- Provision a Virtual Machine on Hetzner Cloud.
+- Assign a public IP to The Virtual Machine.
+- Create a Cloudflare DNS Record pointing to The Virtual Machine.
+- Attach The Security Group to allow SSH (port 22) and HTTP/HTTPS (ports 80, 443).
+- Deploy Cloud-Init Script on The Virtual Machine to install Nginx and Docker.
+- Use Let's Encrypt with Cloudflare API for TLS Certificates.
+- Output the Virtual Machine IP and DNS Record for verification.
+- Write a README.md file that explains how to run the application and setup the environment.
