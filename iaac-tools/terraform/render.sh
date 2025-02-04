@@ -11,7 +11,7 @@ for arg in "$@"; do
 done
 
 if [ "${VERBOSE:-}" -eq 1 ] 2>/dev/null; then
-    printf "Running the python-backend-scaffolding example in verbose mode.\n"
+    printf "Running the setup-vm example in verbose mode.\n"
 fi
 
 # Check if PLAIN2CODE_RENDERER variable is set
@@ -22,8 +22,7 @@ fi
 
 # Removing all the end-to-end tests before rendering the thebackend servic
 
-# python3 $PLAIN2CODE_RENDERER_DIR/plain2code.py backend-service.plain --e2e-tests-script=$PLAIN2CODE_RENDERER_DIR/test_scripts/run_e2e_tests_cypress.sh --build-folder=build --e2e-tests-folder=e2e_tests ${VERBOSE:+-v}
-python3 $PLAIN2CODE_RENDERER_DIR/plain2code.py backend-service.plain --build-folder=build ${VERBOSE:+-v}
+python3 $PLAIN2CODE_RENDERER_DIR/plain2code.py setup-vm.plain --build-folder=build ${VERBOSE:+-v}
 
 # Check if the plain2code command failed
 if [ $? -ne 0 ]; then
