@@ -1,0 +1,83 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - nginx
+  - ca-certificates
+  - certbot
+  - curl
+  - gnupg
+
+write_files:
+  - path: /etc/nginx/sites-available/default
+    content: |
+      server {
+          listen 80 default_server;
+          listen [::]:80 default_server;
+          server_name tjazerzen.com;
+          
+          location / {
+              return 301 https://$host$request_uri;
+          }
+      }
+      
+      server {
+          listen 443 ssl default_server;
+          listen [::]:443 ssl default_server;
+          
+          root /var/www/html;
+          index index.html;
+          
+          server_name tjazerzen.com;
+          
+          ssl_certificate /etc/letsencrypt/live/tjazerzen.com/fullchain.pem;
+          ssl_certificate_key /etc/letsencrypt/live/tjazerzen.com/privkey.pem;
+          
+          ssl_protocols TLSv1.2 TLSv1.3;
+          ssl_ciphers HIGH:!aNULL:!MD5;
+          
+          ssl_prefer_server_ciphers on;
+          ssl_session_cache shared:SSL:10m;
+          ssl_session_timeout 10m;
+          
+          add_header Strict-Transport-Security "max-age=31536000" always;
+          
+          location /.well-known/acme-challenge/ {
+              root /var/www/html;
+          }
+          
+          location / {
+              try_files $uri $uri/ =404;
+          }
+      }
+
+runcmd:
+  # Install Docker
+  - install -m 0755 -d /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - chmod a+r /etc/apt/keyrings/docker.gpg
+  - echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - apt-get update
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  
+  # Install Certbot Cloudflare plugin
+  - apt-get install -y python3-pip
+  - pip3 install certbot-dns-cloudflare
+  
+  # Configure Cloudflare credentials
+  - mkdir -p /root/.secrets/
+  - echo "dns_cloudflare_api_token = ${cloudflare_api_token}" > /root/.secrets/cloudflare.ini
+  - chmod 600 /root/.secrets/cloudflare.ini
+  
+  # Get SSL certificate
+  - certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d tjazerzen.com --non-interactive --agree-tos --email admin@tjazerzen.com
+  
+  # Set up auto-renewal
+  - echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q" | tee -a /etc/crontab > /dev/null
+  
+  # Start services
+  - systemctl enable nginx
+  - systemctl start nginx
+  - systemctl enable docker
+  - systemctl start docker
