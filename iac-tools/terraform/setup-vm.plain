@@ -1,9 +1,9 @@
 ***Definitions:***
 
-- The Infrastructure is a Terraform configuration that provisions a virtual machine on Hetzner Cloud.
+- The Infrastructure is a Terraform configuration that provisions a virtual machine on Digital Ocean Cloud.
 - The Domain is `tjazerzen.com`, managed on Cloudflare.
 - The DNS Record maps The Domain to The Virtual Machine's IP address.
-- The Security Group is an AWS security group that allows SSH (port 22) and HTTP/HTTPS (ports 80, 443).
+- The Security Group is an Digital Ocean security group that allows SSH (port 22) and HTTP/HTTPS (ports 80, 443).
 - The TLS Certificates are issued by Let's Encrypt and managed using Cloudflare API.
 - The Cloud-Init Script is responsible for setting up The Virtual Machine with required software.
 
@@ -11,7 +11,7 @@
 
 - The Infrastructure should be written in Terraform.
 - The Cloud-Init Script should be used to install and configure Nginx and Docker.
-- The Security Group should be managed in AWS.
+- The Security Group should be managed in Digital Ocean.
 - The DNS Record should be managed using Cloudflare's API.
 - SSL certificates should be automatically provisioned with Let's Encrypt.
 
@@ -25,7 +25,7 @@
   
 ***Functional Requirements:***
 
-- Provision a Virtual Machine on Hetzner Cloud.
+- Provision a Virtual Machine on Digital Ocean Cloud.
 - Assign a public IP to The Virtual Machine.
 - Create a Cloudflare DNS Record pointing to The Virtual Machine.
 - Attach The Security Group to allow SSH (port 22) and HTTP/HTTPS (ports 80, 443).
